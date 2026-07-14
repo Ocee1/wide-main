@@ -37,14 +37,14 @@ export default function Hero() {
         alt=""
         width={330}
         height={165}
-        className="animate-camera-left pointer-events-none absolute left-[1%] top-[26%] hidden w-[300px] opacity-90 xl:block xl:w-[330px]"
+        className="animate-camera-left pointer-events-none absolute left-[-3%] top-[19%] hidden w-[300px] opacity-90 xl:block xl:w-[330px]"
       />
       <Image
         src="/images/camera.png"
         alt=""
         width={285}
         height={143}
-        className="animate-camera-right pointer-events-none absolute right-[1%] top-[38%] hidden w-[255px] opacity-90 xl:block xl:w-[285px]"
+        className="animate-camera-right pointer-events-none absolute right-[1%] top-[48%] hidden w-[255px] opacity-90 xl:block xl:w-[285px]"
       />
 
       <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center px-6 text-center">
@@ -91,10 +91,10 @@ export default function Hero() {
             letterSpacing: "0%",
           }}
         >
-          Find professional photographers for weddings, portraits, events,
+          Find professional creatives for weddings, portraits, events,
           and more. <span className="text-[#f47c10]">Clients</span> can
           easily book sessions, communicate directly with their chosen
-          photographer, and enjoy secure payments with guaranteed stunning
+          creative, and enjoy secure payments with guaranteed stunning
           results.
         </p>
 

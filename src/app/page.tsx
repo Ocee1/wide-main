@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ImageMarquee from "@/components/ImageMarquee";
 import About from "@/components/About";
 import Features from "@/components/Features";
 import Quote from "@/components/Quote";
@@ -13,6 +14,7 @@ export default function Home() {
       <Navbar />
       <main className="overflow-hidden">
         <Hero />
+        <ImageMarquee />
         <About />
         <Features />
         <Quote />

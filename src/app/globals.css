@@ -50,9 +50,23 @@ body {
 }
 
 .animate-camera-left {
-  animation: camera-float-left 6s ease-in-out infinite;
+  animation: camera-float-left 4s ease-in-out infinite;
 }
 
 .animate-camera-right {
-  animation: camera-float-right 7s ease-in-out infinite;
+  animation: camera-float-right 5s ease-in-out infinite;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
 }
