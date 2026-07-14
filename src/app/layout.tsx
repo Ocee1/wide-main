@@ -16,7 +16,7 @@ const mulish = Mulish({
 export const metadata: Metadata = {
   title: "WideAngu — Capture Every Moment, Anywhere",
   description:
-    "Find professional photographers for weddings, portraits, events, and more. Book sessions, communicate directly, and enjoy secure payments with guaranteed stunning results.",
+    "Find professional creatives for weddings, portraits, events, and more. Book sessions, communicate directly, and enjoy secure payments with guaranteed stunning results.",
 };
 
 export default function RootLayout({
