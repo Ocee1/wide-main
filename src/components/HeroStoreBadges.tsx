@@ -2,7 +2,9 @@ import Image from "next/image";
 
 export default function HeroStoreBadges() {
   return (
-    <div className="flex items-start gap-[16.209px]">
+    // The mobile frame stacks the two pills (6665:13920); desktop sits them
+    // side by side.
+    <div className="flex flex-col items-center gap-[16.209px] lg:flex-row lg:items-start">
       <a
         href="#download"
         className="flex shrink-0 items-center justify-center gap-2 rounded-[78.031px] border-[0.709px] border-white"

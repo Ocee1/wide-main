@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import type { CSSProperties } from "react";
+
+const mulish: CSSProperties = { fontFamily: "var(--font-mulish)" };
 
 const testimonials = [
   {
@@ -31,6 +34,62 @@ const testimonials = [
   },
 ];
 
+function SectionHeading({ className = "" }: { className?: string }) {
+  return (
+    <h2
+      className={`font-display text-[36px] font-bold leading-[1.3] lg:text-[48px] ${className}`}
+      style={{
+        backgroundImage: "linear-gradient(180deg, #e17918 0%, #f1392f 100%)",
+        WebkitBackgroundClip: "text",
+        backgroundClip: "text",
+        color: "transparent",
+      }}
+    >
+      Success Stories
+    </h2>
+  );
+}
+
+function ArrowButton({
+  onClick,
+  direction,
+  label,
+  className = "",
+}: {
+  onClick: () => void;
+  direction: "prev" | "next";
+  label: string;
+  className?: string;
+}) {
+  const isPrev = direction === "prev";
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      // Mobile pads to 20px with a 21.654px glyph on the prev arrow (6665:14162)
+      className={`shrink-0 items-center justify-center rounded-[70px] p-[20px] transition-transform hover:scale-105 lg:p-[13px] ${
+        isPrev ? "border-[0.773px] border-solid border-[#f3a304] lg:border" : ""
+      } ${className || "flex"}`}
+      style={
+        isPrev
+          ? undefined
+          : { backgroundImage: "linear-gradient(180deg, #e17918 0%, #f1392f 100%)" }
+      }
+    >
+      <Image
+        src="/images/carousel-arrow.svg"
+        alt=""
+        width={28}
+        height={28}
+        className={`${
+          isPrev ? "size-[21.654px] rotate-180 lg:size-7" : "size-7"
+        }`}
+      />
+    </button>
+  );
+}
+
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
 
@@ -40,62 +99,97 @@ export default function Testimonials() {
   const current = testimonials[index];
 
   return (
-    <section id="stories" className="py-16 sm:py-24">
-      <div className="mx-auto flex max-w-4xl flex-col items-center gap-10 px-6 md:flex-row md:items-center md:gap-12">
-        <button
-          onClick={prev}
-          aria-label="Previous testimonial"
-          className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-[#f3a304] text-[#f3a304] transition-colors hover:bg-[#f3a304]/10 md:flex"
-        >
-          ←
-        </button>
+    <section id="stories" className="pt-[125px] lg:py-24">
+      {/* 349.64 is the frame's own content width (6665:14158) — the arrows +
+          portrait row is 351px wide and has nowhere to shrink to, so any extra
+          padding pushes the next arrow off the right edge. */}
+      <div className="mx-auto flex w-full max-w-[349.64px] flex-col items-center gap-[37px] lg:max-w-[1191.501px] lg:gap-[43px] lg:px-6">
+        {/* Mobile puts the heading above the portrait (6665:14159) */}
+        <SectionHeading className="text-center lg:hidden" />
 
-        <div className="relative h-[280px] w-[220px] shrink-0 overflow-hidden rounded-full bg-white">
-          <Image
-            src="/images/testimonial.png"
-            alt={current.name}
-            fill
-            sizes="220px"
-            priority
-            className="object-cover grayscale"
-          />
-        </div>
-
-        <div className="flex flex-1 flex-col items-center gap-6 text-center md:items-start md:text-left">
-          <div>
-            <h3 className="font-display text-3xl font-bold text-gradient sm:text-4xl">
-              Success Stories
-            </h3>
-            <p className="mt-4 text-base font-light leading-relaxed text-[#bbbfcc]">
-              {current.quote}
-            </p>
-            <p className="mt-4 flex items-center justify-center gap-2 font-bold text-white md:justify-start">
-              <span className="h-px w-6 bg-white/60" aria-hidden />
-              {current.name}
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setIndex(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
-                className={`h-[9px] rounded-full bg-gradient-to-b from-[#e17918] to-[#f1392f] transition-all ${
-                  i === index ? "w-[26px]" : "w-[9px] opacity-40"
-                }`}
+        <div className="flex w-full flex-col items-center gap-[37px] lg:flex-row lg:gap-[97px]">
+          {/* Portrait, flanked by both arrows on mobile */}
+          <div className="flex items-center gap-[32px] lg:gap-[48px]">
+            <ArrowButton
+              onClick={prev}
+              direction="prev"
+              label="Previous success story"
+            />
+            <div className="relative h-[197px] w-[155.982px] shrink-0 overflow-hidden rounded-[93.012px] lg:h-[353px] lg:w-[279.501px] lg:rounded-[166.666px]">
+              <Image
+                src="/images/testimonial.png"
+                alt={current.name}
+                fill
+                sizes="280px"
+                className="object-cover grayscale"
               />
-            ))}
+            </div>
+            <ArrowButton
+              onClick={next}
+              direction="next"
+              label="Next success story"
+              className="flex lg:hidden"
+            />
+          </div>
+
+          {/* Copy + next */}
+          <div className="flex w-[309px] max-w-full flex-1 items-center gap-8 lg:w-auto lg:gap-[52px]">
+            <div className="flex w-full flex-col items-center gap-[10px] text-center lg:w-[585px] lg:items-start lg:gap-[20px] lg:text-left">
+              <div className="flex flex-col gap-[10px] lg:gap-[20px]">
+                <SectionHeading className="hidden lg:block" />
+                <p
+                  className="text-[16px] text-[#bbbfcc] lg:w-[580px] lg:text-[20px]"
+                  style={{ ...mulish, fontWeight: 300, lineHeight: 1.44 }}
+                >
+                  {current.quote}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-[9px]">
+                <span aria-hidden className="h-px w-[21px] bg-white lg:w-[61px]" />
+                <span
+                  className="text-[16px] font-bold whitespace-nowrap text-white lg:text-[20px]"
+                  style={{ ...mulish, lineHeight: 1.44 }}
+                >
+                  {current.name}
+                </span>
+              </div>
+            </div>
+
+            <ArrowButton
+              onClick={next}
+              direction="next"
+              label="Next success story"
+              className="hidden lg:flex"
+            />
           </div>
         </div>
 
-        <button
-          onClick={next}
-          aria-label="Next testimonial"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#e17918] to-[#f1392f] text-white transition-transform hover:scale-105"
-        >
-          →
-        </button>
+        {/* Dots */}
+        <div className="-mt-[13px] flex items-center gap-[8px] lg:mt-0">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIndex(i)}
+              aria-label={`Go to success story ${i + 1}`}
+              aria-current={i === index}
+              className={
+                i === index
+                  ? "h-[9px] w-[26px] rounded-[58px]"
+                  : "size-[9px] rounded-full bg-white/25"
+              }
+              style={
+                i === index
+                  ? {
+                      backgroundImage:
+                        "linear-gradient(180deg, #e17918 0%, #f1392f 100%)",
+                    }
+                  : undefined
+              }
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
