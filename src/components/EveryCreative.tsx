@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import CarouselDots from "./CarouselDots";
 import Glow from "./Glow";
@@ -8,6 +11,88 @@ const avatars = [
   "/images/avatar3.png",
   "/images/avatar4.png",
 ];
+
+/**
+ * One slide per creative discipline — the seven variants of the Figma component
+ * set 6642:30974. Every variant swaps the collage plus all four copy blocks
+ * around it, so they travel together.
+ */
+const slides = [
+  {
+    image: "/images/creative-grid-1.webp",
+    stat: "7k+",
+    statLabel: "Verified photographers",
+    caption: "Where Every Moment Meets the Right Photographer",
+    category: "Photographers",
+    categoryCount: "20k+",
+    priceLead: "Professional Photographers",
+    priceAmount: "₦25,000.",
+  },
+  {
+    image: "/images/creative-grid-2.webp",
+    stat: "3k+",
+    statLabel: "Verified Videographers",
+    caption: "Where Every Moment Meets the Right Videographer",
+    category: "Videographer",
+    categoryCount: "4k+",
+    priceLead: "Professional Videographer",
+    priceAmount: "₦45,000.",
+  },
+  {
+    image: "/images/creative-grid-3.webp",
+    stat: "200+",
+    statLabel: "Verified Drone Pilots",
+    caption: "Where Every Moment Meets the Right Drone Pilot",
+    category: "Drone Pilot",
+    categoryCount: "300+",
+    priceLead: "Professional Drone pilot",
+    priceAmount: "₦65,000.",
+  },
+  {
+    image: "/images/creative-grid-4.webp",
+    stat: "300+",
+    statLabel: "Verified Make-Up Artist",
+    caption: "Where Every Moment Meets the Right Gaffers",
+    category: "Make-Up Artist",
+    categoryCount: "1000+",
+    priceLead: "Professional Photographers",
+    priceAmount: "₦130,000.",
+  },
+  {
+    image: "/images/creative-grid-5.webp",
+    stat: "10k+",
+    statLabel: "Verified Editors",
+    caption: "Where Every Moment Meets the Right Editors",
+    category: "Editors",
+    categoryCount: "20K+",
+    priceLead: "Professional Photographers",
+    priceAmount: "₦25,000.",
+  },
+  {
+    image: "/images/creative-grid-6.webp",
+    stat: "500+",
+    statLabel: "Verified Sound",
+    caption: "Where Every Moment Meets the Right Sound",
+    category: "Sound",
+    categoryCount: "2K+",
+    priceLead: "Professional Photographers",
+    priceAmount: "₦100,000.",
+  },
+  {
+    image: "/images/creative-grid-7.webp",
+    stat: "10k+",
+    statLabel: "Verified Content Creators",
+    caption: "Where Every Moment Meets the Right Event Crew",
+    category: "Content Creator",
+    categoryCount: "1000+",
+    priceLead: "Professional Photographers",
+    priceAmount: "₦300,000",
+  },
+];
+
+/** Collage exports run at 3x the 334.314x474 Figma frame (Component 50). */
+const GRID_WIDTH = 1003;
+const GRID_HEIGHT = 1422;
 
 const TRACKING = "1.1686px";
 
@@ -25,10 +110,12 @@ const captionSm = { ...caption, fontSize: "8px" } as const;
 function ArrowButton({
   direction,
   label,
+  onClick,
   compact = false,
 }: {
   direction: "prev" | "next";
   label: string;
+  onClick: () => void;
   /** Mobile controls (6665:16391) run at 0.685 of the desktop size. */
   compact?: boolean;
 }) {
@@ -38,7 +125,8 @@ function ArrowButton({
     <button
       type="button"
       aria-label={label}
-      className={`flex items-center justify-center transition-transform hover:scale-105 ${
+      onClick={onClick}
+      className={`flex cursor-pointer items-center justify-center transition-transform hover:scale-105 ${
         isPrev ? "border-solid border-[#f3a304]" : ""
       }`}
       style={{
@@ -63,6 +151,11 @@ function ArrowButton({
 }
 
 export default function EveryCreative() {
+  const [index, setIndex] = useState(0);
+  const slide = slides[index];
+  const step = (delta: number) =>
+    setIndex((i) => (i + delta + slides.length) % slides.length);
+
   return (
     <section id="creatives" className="relative xl:py-24">
       {/* Ellipses 196, 195, 197 */}
@@ -100,10 +193,10 @@ export default function EveryCreative() {
           <div className="relative h-[401px] w-[412px] shrink-0">
             <div className="absolute left-[91.859px] top-0 flex w-[229.162px] flex-col items-center gap-[16.451px]">
               <Image
-                src="/images/creative-grid.png"
-                alt="Featured creative work"
-                width={669}
-                height={948}
+                src={slide.image}
+                alt={`${slide.category} work on Wide Angu`}
+                width={GRID_WIDTH}
+                height={GRID_HEIGHT}
                 className="h-[324.913px] w-[229.162px] object-contain"
               />
               <div className="flex w-[105.562px] flex-col items-center gap-[16.451px]">
@@ -112,10 +205,22 @@ export default function EveryCreative() {
                     compact
                     direction="prev"
                     label="Previous creative"
+                    onClick={() => step(-1)}
                   />
-                  <ArrowButton compact direction="next" label="Next creative" />
+                  <ArrowButton
+                    compact
+                    direction="next"
+                    label="Next creative"
+                    onClick={() => step(1)}
+                  />
                 </div>
-                <CarouselDots count={7} size={6.169} />
+                <CarouselDots
+                  count={slides.length}
+                  active={index}
+                  size={6.169}
+                  onSelect={setIndex}
+                  label="Show creative category"
+                />
               </div>
             </div>
 
@@ -129,13 +234,13 @@ export default function EveryCreative() {
                   letterSpacing: "1.5025px",
                 }}
               >
-                7k+
+                {slide.stat}
               </p>
               <p
                 className="whitespace-nowrap text-white"
                 style={{ ...captionSm, letterSpacing: "0.7619px" }}
               >
-                Verified photographers
+                {slide.statLabel}
               </p>
             </div>
 
@@ -192,7 +297,7 @@ export default function EveryCreative() {
                     letterSpacing: "0.5627px",
                   }}
                 >
-                  Photographers
+                  {slide.category}
                 </p>
                 <div className="absolute left-[6.26px] top-[18.78px] flex items-center gap-[4.815px]">
                   <div className="flex items-center">
@@ -214,7 +319,7 @@ export default function EveryCreative() {
                       letterSpacing: "0.303px",
                     }}
                   >
-                    20k+
+                    {slide.categoryCount}
                   </span>
                 </div>
               </div>
@@ -226,20 +331,20 @@ export default function EveryCreative() {
               className="absolute left-[26px] top-[311px] w-[156px] text-[#85898d]"
               style={captionSm}
             >
-              Where Every Moment Meets the Right Photographer
+              {slide.caption}
             </p>
             <p
               className="absolute left-[265px] top-[311.62px] w-[125px] text-[#85898d]"
               style={{ ...captionSm, letterSpacing: "0.6629px" }}
             >
-              Professional Photographers
+              {slide.priceLead}
               <br />
               Starting at{" "}
               <span
                 className="text-[#fd5f00]"
                 style={{ fontWeight: 800, fontSize: "9.076px" }}
               >
-                ₦25,000.
+                {slide.priceAmount}
               </span>
             </p>
           </div>
@@ -247,7 +352,7 @@ export default function EveryCreative() {
 
         {/* Desktop: three-column row */}
         <div className="hidden w-full xl:flex xl:flex-row xl:items-center xl:justify-between xl:gap-[259px]">
-          {/* Left: 7k+ stat, pin graphic, caption */}
+          {/* Left: stat, pin graphic, caption */}
           <div className="relative h-[430px] w-[224px] shrink-0">
             <div className="absolute left-0 top-0 flex w-[181px] flex-col gap-[6px]">
               <p
@@ -258,10 +363,10 @@ export default function EveryCreative() {
                   letterSpacing: "2.3048px",
                 }}
               >
-                7k+
+                {slide.stat}
               </p>
               <p className="text-[#85898d]" style={caption}>
-                Verified photographers
+                {slide.statLabel}
               </p>
             </div>
             <Image
@@ -275,30 +380,43 @@ export default function EveryCreative() {
               className="absolute left-px top-[388px] w-[224px] text-[#85898d]"
               style={caption}
             >
-              Where Every Moment Meets the Right Photographer
+              {slide.caption}
             </p>
           </div>
 
           {/* Center: collage + controls */}
           <div className="flex w-[334.314px] shrink-0 flex-col items-center gap-[24px]">
             <Image
-              src="/images/creative-grid.png"
-              alt="Featured creative work"
-              width={669}
-              height={948}
+              src={slide.image}
+              alt={`${slide.category} work on Wide Angu`}
+              width={GRID_WIDTH}
+              height={GRID_HEIGHT}
               className="h-[474px] w-[334.314px] object-contain"
               priority={false}
             />
             <div className="flex w-[154px] flex-col items-center gap-[24px]">
               <div className="flex w-full items-center gap-[46px]">
-                <ArrowButton direction="prev" label="Previous creative" />
-                <ArrowButton direction="next" label="Next creative" />
+                <ArrowButton
+                  direction="prev"
+                  label="Previous creative"
+                  onClick={() => step(-1)}
+                />
+                <ArrowButton
+                  direction="next"
+                  label="Next creative"
+                  onClick={() => step(1)}
+                />
               </div>
-              <CarouselDots count={7} />
+              <CarouselDots
+                count={slides.length}
+                active={index}
+                onSelect={setIndex}
+                label="Show creative category"
+              />
             </div>
           </div>
 
-          {/* Right: browse all, photographers, pricing */}
+          {/* Right: browse all, category, pricing */}
           <div className="relative h-[430px] w-[217px] shrink-0">
             <a
               href="#creatives"
@@ -338,7 +456,7 @@ export default function EveryCreative() {
                   className="font-display absolute left-0 top-0 w-[216px] text-center text-white"
                   style={{ fontSize: "28px", lineHeight: 0.94 }}
                 >
-                  Photographers
+                  {slide.category}
                 </p>
                 <div className="absolute left-[13px] top-[39px] flex items-center gap-[10px]">
                   <div className="flex items-center">
@@ -360,7 +478,7 @@ export default function EveryCreative() {
                       letterSpacing: "0.6293px",
                     }}
                   >
-                    20k+
+                    {slide.categoryCount}
                   </span>
                 </div>
               </div>
@@ -371,14 +489,14 @@ export default function EveryCreative() {
               className="absolute left-[5px] top-[384.98px] w-[217px] text-[#85898d]"
               style={caption}
             >
-              Professional Photographers
+              {slide.priceLead}
               <br />
               Starting at{" "}
               <span
                 className="text-[#fd5f00]"
                 style={{ fontWeight: 800, fontSize: "16px" }}
               >
-                ₦25,000.
+                {slide.priceAmount}
               </span>
             </p>
           </div>
