@@ -6,16 +6,20 @@ const DESCRIPTION =
 
 const features = [
   {
-    title: "Instant Capture Screen",
+    title: "Instant Booking",
     description: DESCRIPTION,
-    image: "/images/feature-phone-1.png",
+    image: "/images/feature-phone-1.jpg",
   },
   {
-    title: "Verified Lensmen",
+    title: "Verified Creatives",
     description: DESCRIPTION,
-    image: "/images/feature-phone-2.png",
+    image: "/images/feature-phone-2.jpg",
   },
 ];
+
+/* Device renders exported at 4x the 288.41x581.8 Figma frame (6541:28774, 6541:28889) */
+const PHONE_WIDTH = 1154;
+const PHONE_HEIGHT = 2327;
 
 const headingGradient = {
   backgroundImage: "linear-gradient(90deg, #f37e0f 0%, #f52c27 100%)",
@@ -52,7 +56,7 @@ export default function Features() {
     <section id="features" className="relative">
       {/* Desktop: pixel layout on the design's 995x623 canvas, 224px between rows */}
       <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-[224px] lg:py-24">
-        {/* Instant Capture Screen — phone left, copy right */}
+        {/* Instant Booking — phone left, copy right */}
         <div className="relative h-[623px] w-[995px]">
           <Image
             src="/images/feature-connector.svg"
@@ -75,8 +79,8 @@ export default function Features() {
           <Image
             src={features[0].image}
             alt={features[0].title}
-            width={588}
-            height={1164}
+            width={PHONE_WIDTH}
+            height={PHONE_HEIGHT}
             className="absolute left-[46px] top-[122px] w-[288.5px]"
           />
           <div className="absolute left-[506px] top-[250px] w-[468px]">
@@ -87,7 +91,7 @@ export default function Features() {
           </div>
         </div>
 
-        {/* Verified Lensmen — copy left, phone right (connector mirrored) */}
+        {/* Verified Creatives — copy left, phone right (connector mirrored) */}
         <div className="relative h-[623px] w-[995px]">
           {/* Ellipse 193 */}
           <Glow x={972.5} y={429} size={120.5} blur={152} />
@@ -107,8 +111,8 @@ export default function Features() {
           <Image
             src={features[1].image}
             alt={features[1].title}
-            width={588}
-            height={1164}
+            width={PHONE_WIDTH}
+            height={PHONE_HEIGHT}
             className="absolute left-[604px] top-[125px] z-10 w-[288.5px]"
           />
         </div>
@@ -121,8 +125,8 @@ export default function Features() {
             <Image
               src={f.image}
               alt={f.title}
-              width={588}
-              height={1164}
+              width={PHONE_WIDTH}
+              height={PHONE_HEIGHT}
               className="w-[193.23px] max-w-full"
             />
             <div
