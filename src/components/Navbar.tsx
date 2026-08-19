@@ -111,7 +111,7 @@ export default function Navbar() {
 
       <div className="hidden items-center gap-[30px] lg:flex">
         <a
-          href="#"
+          href="https://app.wideangu.com"
           className="text-[16px] font-semibold text-white"
           style={{ fontFamily: "var(--font-mulish)" }}
         >
@@ -119,7 +119,7 @@ export default function Navbar() {
         </a>
 
         <a
-          href="#download"
+          href="https://app.wideangu.com"
           className="flex shrink-0 items-center justify-center gap-2 rounded-[40px] bg-white px-2 py-4 transition-transform hover:scale-[1.03]"
           style={{ width: "179px", height: "56px" }}
         >
@@ -175,7 +175,7 @@ export default function Navbar() {
           ))}
 
           <a
-            href="#"
+            href="https://app.wideangu.com"
             onClick={() => setOpen(false)}
             className="rounded-lg px-3 py-3 text-[16px] font-semibold text-white"
             style={{ fontFamily: "var(--font-mulish)" }}
@@ -184,7 +184,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="#download"
+            href="https://app.wideangu.com"
             onClick={() => setOpen(false)}
             className="mt-1 flex h-[56px] items-center justify-center gap-2 rounded-[40px] bg-white"
           >
