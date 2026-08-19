@@ -102,7 +102,7 @@ export default function Navbar() {
             >
               {l.label}
               {l.dropdown && (
-                <Image src="/images/chevron-down.svg" alt="" width={24} height={24} />
+                <Image src="/images/chevron-dropdown.svg" alt="" width={24} height={24} />
               )}
             </a>
           ))}
@@ -115,7 +115,7 @@ export default function Navbar() {
           className="text-[16px] font-semibold text-white"
           style={{ fontFamily: "var(--font-mulish)" }}
         >
-          <span className="text-[#fd5f00]">Sign Up</span> / Log in
+          Get Started
         </a>
 
         <a
@@ -127,9 +127,8 @@ export default function Navbar() {
             className="font-bold text-black"
             style={{ fontFamily: "var(--font-mulish)", fontSize: "16px", lineHeight: 1.4 }}
           >
-            Capture Now
+            Instant Booking
           </p>
-          <Image src="/images/camera-icon.svg" alt="" width={24} height={24} />
         </a>
       </div>
 
@@ -181,7 +180,7 @@ export default function Navbar() {
             className="rounded-lg px-3 py-3 text-[16px] font-semibold text-white"
             style={{ fontFamily: "var(--font-mulish)" }}
           >
-            <span className="text-[#fd5f00]">Sign Up</span> / Log in
+            Get Started
           </a>
 
           <a
@@ -193,9 +192,8 @@ export default function Navbar() {
               className="font-bold text-black"
               style={{ fontFamily: "var(--font-mulish)", fontSize: "16px", lineHeight: 1.4 }}
             >
-              Capture Now
+              Instant Booking
             </span>
-            <Image src="/images/camera-icon.svg" alt="" width={24} height={24} />
           </a>
         </div>
       )}

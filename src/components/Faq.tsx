@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { CSSProperties } from "react";
 import CtaButtons from "./CtaButtons";
+import Reveal from "./Reveal";
 
 const mulish: CSSProperties = { fontFamily: "var(--font-mulish)" };
 
@@ -36,7 +37,7 @@ export default function Faq() {
     <section id="faq" className="pb-[74px] pt-24 lg:py-24">
       <div className="mx-auto flex max-w-[392px] flex-col items-center gap-[37px] px-6 lg:max-w-[1150px] lg:flex-row lg:items-start lg:gap-[112px]">
         {/* Gradient display heading */}
-        <div className="w-full lg:min-w-px lg:flex-1">
+        <Reveal className="w-full lg:min-w-px lg:flex-1">
           <h2
             className="font-display text-center text-[48px] leading-[59px] font-bold lg:w-[392px] lg:text-left lg:text-[68.636px] lg:leading-[77.287px]"
             style={{
@@ -55,16 +56,17 @@ export default function Faq() {
             <br />
             Questions
           </h2>
-        </div>
+        </Reveal>
 
         {/* Accordion */}
         <div className="flex w-full max-w-[328px] flex-col gap-[9px] lg:w-auto lg:max-w-none lg:shrink-0 lg:gap-[16px]">
           {questions.map((item, i) => {
             const isOpen = open === i;
             return (
-              <div
+              <Reveal
                 key={item.q}
-                className="rounded-[14px] border border-solid border-white bg-[rgba(255,255,255,0.02)] px-[16px] py-[25px] lg:w-[646px]"
+                delay={i * 70}
+                className="rounded-[14px] border border-solid border-white bg-[rgba(255,255,255,0.02)] px-[16px] py-[25px] transition-colors duration-300 hover:border-white/60 lg:w-[646px]"
               >
                 <button
                   type="button"
@@ -84,7 +86,7 @@ export default function Faq() {
                   </span>
                   <span
                     aria-hidden
-                    className={`relative size-[16px] shrink-0 transition-transform lg:size-[14px] ${
+                    className={`relative size-[16px] shrink-0 transition-transform duration-300 lg:size-[14px] ${
                       isOpen ? "rotate-45" : ""
                     }`}
                   >
@@ -93,15 +95,21 @@ export default function Faq() {
                   </span>
                 </button>
 
-                {isOpen && (
-                  <p
-                    className="mt-4 text-[#a7a8a9] lg:w-[593px]"
-                    style={{ ...mulish, fontSize: "16px", lineHeight: 1.55 }}
-                  >
-                    {item.a}
-                  </p>
-                )}
-              </div>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p
+                      className="mt-4 text-[#a7a8a9] lg:w-[593px]"
+                      style={{ ...mulish, fontSize: "16px", lineHeight: 1.55 }}
+                    >
+                      {item.a}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
             );
           })}
         </div>

@@ -4,6 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import CarouselDots from "./CarouselDots";
 import Glow from "./Glow";
+import Reveal from "./Reveal";
+import AnimatedStat from "./AnimatedStat";
+import { useInView } from "@/hooks/useInView";
+import { useSwipe } from "@/hooks/useSwipe";
 
 const avatars = [
   "/images/avatar1.png",
@@ -155,6 +159,11 @@ export default function EveryCreative() {
   const slide = slides[index];
   const step = (delta: number) =>
     setIndex((i) => (i + delta + slides.length) % slides.length);
+  const { ref: statsRef, inView: statsInView } = useInView<HTMLDivElement>(0.3);
+  const swipe = useSwipe(
+    () => step(1),
+    () => step(-1),
+  );
 
   return (
     <section id="creatives" className="relative xl:py-24">
@@ -162,9 +171,12 @@ export default function EveryCreative() {
       <Glow x={1166} y={285} size={120.5} blur={152} />
       <Glow x={73} y={346} size={120.5} blur={152} />
       <Glow x={86.5} y={736} size={25.5} blur={32} />
-      <div className="relative z-10 mx-auto flex max-w-[1299.314px] flex-col items-center gap-[113px] px-6 xl:gap-[55px]">
+      <div
+        ref={statsRef}
+        className="relative z-10 mx-auto flex max-w-[1299.314px] flex-col items-center gap-[113px] px-6 xl:gap-[55px]"
+      >
         {/* Heading — 6665:16385 on mobile, 48px on desktop */}
-        <div
+        <Reveal
           className="flex w-full max-w-[297px] flex-col items-center gap-[12px] text-center xl:max-w-[1178px]"
           style={{ letterSpacing: TRACKING }}
         >
@@ -183,21 +195,27 @@ export default function EveryCreative() {
             <span className="text-[#e17918]">Wide Angu</span> spans the full
             spectrum of media services.,
           </p>
-        </div>
+        </Reveal>
 
         {/* Mobile: the stats are pinned around the collage, so the block keeps
             the frame's own 412px canvas (centred, and never wider than its
             26px..390px of content) rather than reflowing at the viewport width
             — anything else drifts the pieces out of alignment. */}
         <div className="-mx-6 flex w-[calc(100%+3rem)] justify-center overflow-hidden xl:hidden">
-          <div className="relative h-[401px] w-[412px] shrink-0">
+          <div
+            className="relative h-[401px] w-[412px] shrink-0 touch-pan-y"
+            onTouchStart={swipe.onTouchStart}
+            onTouchEnd={swipe.onTouchEnd}
+          >
             <div className="absolute left-[91.859px] top-0 flex w-[229.162px] flex-col items-center gap-[16.451px]">
               <Image
+                key={index}
                 src={slide.image}
                 alt={`${slide.category} work on Wide Angu`}
                 width={GRID_WIDTH}
                 height={GRID_HEIGHT}
-                className="h-[324.913px] w-[229.162px] object-contain"
+                sizes="230px"
+                className="slide-fade-in h-[324.913px] w-[229.162px] object-contain"
               />
               <div className="flex w-[105.562px] flex-col items-center gap-[16.451px]">
                 <div className="flex w-full items-center gap-[31.532px]">
@@ -226,16 +244,16 @@ export default function EveryCreative() {
 
             {/* 7k+ — 6665:16420 */}
             <div className="absolute left-[26px] top-[40px] flex w-[107px] flex-col gap-[3.912px]">
-              <p
+              <AnimatedStat
+                value={slide.stat}
+                active={statsInView}
                 className="font-display font-bold text-[#fd5f00]"
                 style={{
                   fontSize: "28px",
                   lineHeight: 0.94,
                   letterSpacing: "1.5025px",
                 }}
-              >
-                {slide.stat}
-              </p>
+              />
               <p
                 className="whitespace-nowrap text-white"
                 style={{ ...captionSm, letterSpacing: "0.7619px" }}
@@ -307,7 +325,7 @@ export default function EveryCreative() {
                         className="relative -ml-[2.89px] h-[8.667px] w-[8.667px] overflow-hidden rounded-full first:ml-0"
                         style={{ zIndex: avatars.length - i }}
                       >
-                        <Image src={src} alt="" fill className="object-cover" />
+                        <Image src={src} alt="" fill sizes="16px" className="object-cover" />
                       </div>
                     ))}
                   </div>
@@ -355,16 +373,16 @@ export default function EveryCreative() {
           {/* Left: stat, pin graphic, caption */}
           <div className="relative h-[430px] w-[224px] shrink-0">
             <div className="absolute left-0 top-0 flex w-[181px] flex-col gap-[6px]">
-              <p
+              <AnimatedStat
+                value={slide.stat}
+                active={statsInView}
                 className="font-display font-bold text-[#fd5f00]"
                 style={{
                   fontSize: "55.222px",
                   lineHeight: 0.94,
                   letterSpacing: "2.3048px",
                 }}
-              >
-                {slide.stat}
-              </p>
+              />
               <p className="text-[#85898d]" style={caption}>
                 {slide.statLabel}
               </p>
@@ -387,11 +405,13 @@ export default function EveryCreative() {
           {/* Center: collage + controls */}
           <div className="flex w-[334.314px] shrink-0 flex-col items-center gap-[24px]">
             <Image
+              key={index}
               src={slide.image}
               alt={`${slide.category} work on Wide Angu`}
               width={GRID_WIDTH}
               height={GRID_HEIGHT}
-              className="h-[474px] w-[334.314px] object-contain"
+              sizes="335px"
+              className="slide-fade-in h-[474px] w-[334.314px] object-contain"
               priority={false}
             />
             <div className="flex w-[154px] flex-col items-center gap-[24px]">
@@ -466,7 +486,7 @@ export default function EveryCreative() {
                         className="relative -ml-1.5 size-4.5 overflow-hidden rounded-full first:ml-0"
                         style={{ zIndex: avatars.length - i }}
                       >
-                        <Image src={src} alt="" fill className="object-cover" />
+                        <Image src={src} alt="" fill sizes="16px" className="object-cover" />
                       </div>
                     ))}
                   </div>

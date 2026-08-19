@@ -16,7 +16,7 @@ export default function GetStartedButton({
   return (
     <a
       href="#download"
-      className="flex h-[56px] w-[188px] items-center justify-center gap-[10px] overflow-hidden rounded-[144px] px-[8px] py-[16px] transition-transform hover:scale-[1.03] lg:w-[200px] lg:gap-[8px] lg:px-[16.814px] lg:py-[6px]"
+      className="flex h-[56px] w-[188px] items-center justify-center gap-[10px] overflow-hidden rounded-[144px] px-[8px] py-[16px] transition-[transform,box-shadow] duration-300 hover:scale-[1.03] hover:shadow-[0_12px_32px_-8px_rgba(246,11,50,0.55)] lg:w-[200px] lg:gap-[8px] lg:px-[16.814px] lg:py-[6px]"
       style={{
         backgroundImage:
           "linear-gradient(93.94deg, rgb(243,163,4) 33.183%, rgb(246,11,50) 131.7%)",

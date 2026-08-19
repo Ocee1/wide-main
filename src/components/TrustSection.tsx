@@ -1,6 +1,7 @@
 import Image from "next/image";
 import CarouselDots from "./CarouselDots";
 import CtaButtons from "./CtaButtons";
+import Reveal from "./Reveal";
 import type { CSSProperties } from "react";
 
 const TRACKING = "1.1686px";
@@ -34,7 +35,7 @@ function LabelChip({ className = "" }: { className?: string }) {
 function PriceCard({ wide = false }: { wide?: boolean }) {
   if (wide) {
     return (
-      <div className="relative flex h-[264px] w-full max-w-[583px] flex-col justify-center gap-[9.424px] rounded-[11.309px] bg-[#1d1d1d] px-[30.157px] pb-[15.078px] pt-[88px]">
+      <div className="relative flex h-[264px] w-full max-w-[583px] flex-col justify-center gap-[9.424px] rounded-[11.309px] bg-[#1d1d1d] px-[30.157px] pb-[15.078px] pt-[88px] transition-all duration-300 hover:-translate-y-1 hover:bg-[#232323] hover:shadow-[0_20px_40px_-15px_rgba(253,95,0,0.25)]">
         <LabelChip className="absolute left-[30.16px] top-[23.56px]" />
         <div
           className="flex flex-col gap-[13.194px]"
@@ -59,7 +60,7 @@ function PriceCard({ wide = false }: { wide?: boolean }) {
   }
 
   return (
-    <div className="flex h-[313.753px] w-full max-w-[325px] flex-col items-center justify-center rounded-[11.409px] bg-[#1d1d1d] px-[30.425px] lg:max-w-[385.061px]">
+    <div className="flex h-[313.753px] w-full max-w-[325px] flex-col items-center justify-center rounded-[11.409px] bg-[#1d1d1d] px-[30.425px] transition-all duration-300 hover:-translate-y-1 hover:bg-[#232323] hover:shadow-[0_20px_40px_-15px_rgba(253,95,0,0.25)] lg:max-w-[385.061px]">
       <div className="flex w-full flex-col gap-[15.212px]">
         <LabelChip className="self-start" />
         <div
@@ -96,6 +97,7 @@ export default function TrustSection() {
         src="/images/escrow-bg-mobile.png"
         alt=""
         fill
+        sizes="100vw"
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 object-fill object-bottom lg:hidden"
       />
@@ -103,13 +105,14 @@ export default function TrustSection() {
         src="/images/escrow-bg.png"
         alt=""
         fill
+        sizes="100vw"
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 hidden object-fill object-bottom lg:block"
       />
 
       <div className="mx-auto max-w-[352px] lg:max-w-[1179.182px] lg:px-6">
         {/* Heading */}
-        <div className="mx-auto flex max-w-[988px] flex-col items-center text-center">
+        <Reveal className="mx-auto flex max-w-[988px] flex-col items-center text-center">
           <p
             className="text-[14px] font-bold text-[#e17918] lg:text-[18px]"
             style={{
@@ -141,11 +144,11 @@ export default function TrustSection() {
               gamble. We rebuilt the rules.
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {/* Escrow panel + cards */}
         <div className="mt-[32px] flex flex-col gap-[32px] lg:mt-[100px]">
-          <div
+          <Reveal
             className="flex w-full flex-col items-center justify-center rounded-[12px] border-l border-t border-solid border-[#dcd9d9] p-6 lg:p-[48px]"
             style={{
               backgroundImage:
@@ -271,24 +274,24 @@ export default function TrustSection() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Mobile: one card as a carousel slide (6673:17351) */}
-          <div className="flex flex-col items-center gap-[12px] lg:hidden">
+          <Reveal className="flex flex-col items-center gap-[12px] lg:hidden">
             <PriceCard />
             <CarouselDots count={5} size={6.169} />
-          </div>
+          </Reveal>
 
           {/* Desktop: 3-up then 2-up */}
           <div className="hidden flex-col gap-[12px] lg:flex">
             <div className="flex flex-col items-center gap-[12px] lg:flex-row">
-              <PriceCard />
-              <PriceCard />
-              <PriceCard />
+              <Reveal delay={0} className="w-full max-w-[325px] lg:max-w-[385.061px]"><PriceCard /></Reveal>
+              <Reveal delay={80} className="w-full max-w-[325px] lg:max-w-[385.061px]"><PriceCard /></Reveal>
+              <Reveal delay={160} className="w-full max-w-[325px] lg:max-w-[385.061px]"><PriceCard /></Reveal>
             </div>
             <div className="flex flex-col items-center gap-[11.309px] lg:flex-row">
-              <PriceCard wide />
-              <PriceCard wide />
+              <Reveal delay={0} className="w-full max-w-[583px]"><PriceCard wide /></Reveal>
+              <Reveal delay={100} className="w-full max-w-[583px]"><PriceCard wide /></Reveal>
             </div>
           </div>
 

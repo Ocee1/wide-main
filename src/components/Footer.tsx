@@ -249,6 +249,7 @@ export default function Footer() {
         src="/images/footer-bg.png"
         alt=""
         fill
+        sizes="100vw"
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 rotate-180 object-fill object-bottom"
       />

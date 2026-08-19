@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import CarouselDots from "./CarouselDots";
+import Reveal from "./Reveal";
 
 const CARD = {
   eyebrow: "Use case 01 · Clients",
@@ -15,7 +16,7 @@ const mulish: CSSProperties = { fontFamily: "var(--font-mulish)" };
 function UseCaseCard() {
   return (
     <div
-      className="flex w-full max-w-[280px] flex-col items-center justify-center gap-[11px] rounded-[12px] bg-[#101214] px-[24px] py-[40px] lg:w-[285px] lg:max-w-none"
+      className="flex w-full max-w-[280px] flex-col items-center justify-center gap-[11px] rounded-[12px] bg-[#101214] px-[24px] py-[40px] transition-all duration-300 hover:-translate-y-1 hover:bg-[#16191c] hover:shadow-[0_20px_40px_-15px_rgba(253,95,0,0.25)] lg:w-[285px] lg:max-w-none"
       style={{ letterSpacing: "1.1111px" }}
     >
       <p
@@ -49,7 +50,7 @@ function ActionButtons({ className = "" }: { className?: string }) {
     >
       <a
         href="#use-cases"
-        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] px-[8px] py-[16px] transition-transform hover:scale-[1.03]"
+        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] px-[8px] py-[16px] transition-[transform,box-shadow] duration-300 hover:scale-[1.03] hover:shadow-[0_12px_32px_-8px_rgba(246,11,50,0.55)]"
         style={{
           backgroundImage:
             "linear-gradient(93.7deg, rgb(243,163,4) 33.183%, rgb(246,11,50) 131.7%)",
@@ -64,7 +65,7 @@ function ActionButtons({ className = "" }: { className?: string }) {
       </a>
       <a
         href="#download"
-        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] border border-solid border-white px-[8px] py-[16px] transition-transform hover:scale-[1.03]"
+        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] border border-solid border-white px-[8px] py-[16px] transition-[transform,background-color] duration-300 hover:scale-[1.03] hover:bg-white/10"
       >
         <span
           className="font-bold whitespace-nowrap text-white"
@@ -87,6 +88,7 @@ export default function UseCases() {
         src="/images/usecases-bg-mobile.png"
         alt=""
         fill
+        sizes="100vw"
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 object-fill object-bottom lg:hidden"
       />
@@ -94,6 +96,7 @@ export default function UseCases() {
         src="/images/usecases-bg.png"
         alt=""
         fill
+        sizes="100vw"
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 hidden object-cover lg:block"
       />
@@ -105,7 +108,7 @@ export default function UseCases() {
 
       <div className="mx-auto flex max-w-[296px] flex-col items-center text-center lg:max-w-[1122px] lg:flex-row lg:items-start lg:gap-[29px] lg:px-6 lg:text-left">
         {/* Left: heading, copy, buttons */}
-        <div className="flex w-full flex-col items-center gap-[23px] lg:w-[507px] lg:shrink-0 lg:items-start lg:gap-[28px]">
+        <Reveal className="flex w-full flex-col items-center gap-[23px] lg:w-[507px] lg:shrink-0 lg:items-start lg:gap-[28px]">
           <div className="flex w-full max-w-[274px] flex-col items-center lg:max-w-none lg:items-start">
             <p
               className="text-[14px] font-bold lg:text-[18px]"
@@ -151,16 +154,18 @@ export default function UseCases() {
           {/* Desktop keeps the buttons in the copy column; mobile puts them
               below the card (6667:17013) */}
           <ActionButtons className="mt-[60px] hidden lg:flex" />
-        </div>
+        </Reveal>
 
         {/* Mobile: one card as a carousel slide. Desktop: 2x2 grid. */}
-        <div className="mt-[80px] flex w-full flex-col items-center gap-[16px] lg:hidden">
+        <Reveal className="mt-[80px] flex w-full flex-col items-center gap-[16px] lg:hidden">
           <UseCaseCard />
           <CarouselDots count={4} size={6.169} />
-        </div>
+        </Reveal>
         <div className="hidden gap-[16px] sm:grid-cols-2 lg:grid lg:w-[586px] lg:shrink-0">
           {cards.map((_, i) => (
-            <UseCaseCard key={i} />
+            <Reveal key={i} delay={i * 90}>
+              <UseCaseCard />
+            </Reveal>
           ))}
         </div>
 

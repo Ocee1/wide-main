@@ -40,6 +40,8 @@ export default function Hero() {
           alt=""
           width={1387}
           height={505}
+          sizes="260vw"
+          quality={30}
           className="absolute top-0 h-full max-w-none"
           style={{ left: "-55.13%", width: "203.42%" }}
         />
@@ -59,6 +61,8 @@ export default function Hero() {
           alt=""
           width={1387}
           height={505}
+          sizes="1400px"
+          quality={30}
           className="absolute top-0 h-full max-w-none"
           style={{ left: "-55.13%", width: "203.42%" }}
         />
@@ -94,7 +98,7 @@ export default function Hero() {
                 className="relative -ml-[4.08px] size-[12.24px] overflow-hidden rounded-full first:ml-0 lg:-ml-1.5 lg:size-4.5"
                 style={{ zIndex: avatars.length - i }}
               >
-                <Image src={src} alt="" fill className="object-cover" />
+                <Image src={src} alt="" fill sizes="20px" className="object-cover" />
               </div>
             ))}
           </div>

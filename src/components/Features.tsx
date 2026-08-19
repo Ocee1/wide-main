@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Glow from "./Glow";
+import Reveal from "./Reveal";
 
 const DESCRIPTION =
   "This screen presents a curated list of available photographers near the event location, enabling clients to select the photographer that best aligns with their preferences.";
@@ -57,7 +58,7 @@ export default function Features() {
       {/* Desktop: pixel layout on the design's 995x623 canvas, 224px between rows */}
       <div className="hidden lg:flex lg:flex-col lg:items-center lg:gap-[224px] lg:py-24">
         {/* Instant Booking — phone left, copy right */}
-        <div className="relative h-[623px] w-[995px]">
+        <Reveal className="relative h-[623px] w-[995px]">
           <Image
             src="/images/feature-connector.svg"
             alt=""
@@ -81,6 +82,7 @@ export default function Features() {
             alt={features[0].title}
             width={PHONE_WIDTH}
             height={PHONE_HEIGHT}
+            sizes="290px"
             className="absolute left-[46px] top-[122px] w-[288.5px]"
           />
           <div className="absolute left-[506px] top-[250px] w-[468px]">
@@ -89,10 +91,10 @@ export default function Features() {
               {features[0].description}
             </p>
           </div>
-        </div>
+        </Reveal>
 
         {/* Verified Creatives — copy left, phone right (connector mirrored) */}
-        <div className="relative h-[623px] w-[995px]">
+        <Reveal className="relative h-[623px] w-[995px]">
           {/* Ellipse 193 */}
           <Glow x={972.5} y={429} size={120.5} blur={152} />
           <Image
@@ -113,20 +115,26 @@ export default function Features() {
             alt={features[1].title}
             width={PHONE_WIDTH}
             height={PHONE_HEIGHT}
+            sizes="290px"
             className="absolute left-[604px] top-[125px] z-10 w-[288.5px]"
           />
-        </div>
+        </Reveal>
       </div>
 
       {/* Mobile: phone above centred copy (mobile frame 6665:13975) */}
       <div className="flex flex-col gap-20 px-6 pb-6 pt-16 lg:hidden">
-        {features.map((f) => (
-          <div key={f.title} className="flex flex-col items-center text-center">
+        {features.map((f, i) => (
+          <Reveal
+            key={f.title}
+            delay={i * 100}
+            className="flex flex-col items-center text-center"
+          >
             <Image
               src={f.image}
               alt={f.title}
               width={PHONE_WIDTH}
               height={PHONE_HEIGHT}
+              sizes="194px"
               className="w-[193.23px] max-w-full"
             />
             <div
@@ -146,7 +154,7 @@ export default function Features() {
                 {f.description}
               </p>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>

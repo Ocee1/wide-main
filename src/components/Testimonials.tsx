@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { CSSProperties } from "react";
+import Reveal from "./Reveal";
+import { useSwipe } from "@/hooks/useSwipe";
 
 const mulish: CSSProperties = { fontFamily: "var(--font-mulish)" };
 
@@ -97,17 +99,22 @@ export default function Testimonials() {
     setIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
   const next = () => setIndex((i) => (i + 1) % testimonials.length);
   const current = testimonials[index];
+  const swipe = useSwipe(next, prev);
 
   return (
     <section id="stories" className="pt-[125px] lg:py-24">
       {/* 349.64 is the frame's own content width (6665:14158) — the arrows +
           portrait row is 351px wide and has nowhere to shrink to, so any extra
           padding pushes the next arrow off the right edge. */}
-      <div className="mx-auto flex w-full max-w-[349.64px] flex-col items-center gap-[37px] lg:max-w-[1191.501px] lg:gap-[43px] lg:px-6">
+      <Reveal className="mx-auto flex w-full max-w-[349.64px] flex-col items-center gap-[37px] lg:max-w-[1191.501px] lg:gap-[43px] lg:px-6">
         {/* Mobile puts the heading above the portrait (6665:14159) */}
         <SectionHeading className="text-center lg:hidden" />
 
-        <div className="flex w-full flex-col items-center gap-[37px] lg:flex-row lg:gap-[97px]">
+        <div
+          className="flex w-full touch-pan-y flex-col items-center gap-[37px] lg:flex-row lg:gap-[97px]"
+          onTouchStart={swipe.onTouchStart}
+          onTouchEnd={swipe.onTouchEnd}
+        >
           {/* Portrait, flanked by both arrows on mobile */}
           <div className="flex items-center gap-[32px] lg:gap-[48px]">
             <ArrowButton
@@ -117,11 +124,12 @@ export default function Testimonials() {
             />
             <div className="relative h-[197px] w-[155.982px] shrink-0 overflow-hidden rounded-[93.012px] lg:h-[353px] lg:w-[279.501px] lg:rounded-[166.666px]">
               <Image
+                key={index}
                 src="/images/testimonial.png"
                 alt={current.name}
                 fill
                 sizes="280px"
-                className="object-cover grayscale"
+                className="slide-fade-in object-cover grayscale"
               />
             </div>
             <ArrowButton
@@ -135,7 +143,7 @@ export default function Testimonials() {
           {/* Copy + next */}
           <div className="flex w-[309px] max-w-full flex-1 items-center gap-8 lg:w-auto lg:gap-[52px]">
             <div className="flex w-full flex-col items-center gap-[10px] text-center lg:w-[585px] lg:items-start lg:gap-[20px] lg:text-left">
-              <div className="flex flex-col gap-[10px] lg:gap-[20px]">
+              <div key={index} className="slide-fade-in flex flex-col gap-[10px] lg:gap-[20px]">
                 <SectionHeading className="hidden lg:block" />
                 <p
                   className="text-[16px] text-[#bbbfcc] lg:w-[580px] lg:text-[20px]"
@@ -174,11 +182,11 @@ export default function Testimonials() {
               onClick={() => setIndex(i)}
               aria-label={`Go to success story ${i + 1}`}
               aria-current={i === index}
-              className={
+              className={`transition-all duration-300 ${
                 i === index
                   ? "h-[9px] w-[26px] rounded-[58px]"
                   : "size-[9px] rounded-full bg-white/25"
-              }
+              }`}
               style={
                 i === index
                   ? {
@@ -190,7 +198,7 @@ export default function Testimonials() {
             />
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

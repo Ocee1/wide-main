@@ -1,5 +1,9 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import Glow from "./Glow";
+import Reveal from "./Reveal";
+import { useInView } from "@/hooks/useInView";
 
 const TRACKING = "1.1686px";
 
@@ -28,6 +32,8 @@ const bodyStyle: CSSProperties = {
 };
 
 export default function HowItWorks() {
+  const { ref: stepsRef, inView: stepsInView } = useInView<HTMLDivElement>(0.25);
+
   return (
     <section id="how-it-works" className="relative pt-[43px] lg:py-24">
       {/* Ellipse 198 — largest wash on the page, dialled back so it doesn't
@@ -35,7 +41,7 @@ export default function HowItWorks() {
       <Glow x={1007} y={253} size={451} blur={569} opacity={0.55} />
       <div className="relative z-10 mx-auto flex max-w-[1235px] flex-col items-center px-6">
         {/* Heading block — eyebrow is left-aligned above a centered heading */}
-        <div
+        <Reveal
           className="flex w-full max-w-[660px] flex-col"
           style={{ letterSpacing: TRACKING }}
         >
@@ -73,30 +79,40 @@ export default function HowItWorks() {
               </span>
             </p>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Three steps, connected by hairlines between the number badges */}
-        <div className="mt-[80px] flex w-full max-w-[343px] flex-col items-start gap-[79px] lg:mt-[112px] lg:-mx-6 lg:max-w-none lg:flex-row lg:items-start lg:justify-center lg:gap-[103px]">
+        {/* Three steps, connected by hairlines between the number badges —
+            each step lights up in sequence as the row scrolls into view. */}
+        <div
+          ref={stepsRef}
+          className="mt-[80px] flex w-full max-w-[343px] flex-col items-start gap-[79px] lg:mt-[112px] lg:-mx-6 lg:max-w-none lg:flex-row lg:items-start lg:justify-center lg:gap-[103px]"
+        >
           {steps.map((step, i) => (
             <div
               key={step.title}
               className="relative flex w-full flex-col items-center gap-[28px] lg:w-[343px] lg:shrink-0"
             >
-              {/* hairline to the previous badge (desktop only) */}
+              {/* hairline to the previous badge (desktop only) — draws in
+                  right after that step's badge has popped */}
               {i > 0 && (
                 <span
                   aria-hidden
-                  className="absolute hidden h-px bg-white lg:block"
+                  className={`step-line absolute hidden h-px bg-white lg:block ${
+                    stepsInView ? "step-line-visible" : ""
+                  }`}
                   style={{
                     top: "35.5px",
                     right: "calc(50% + 35.51px)",
                     width: "375px",
+                    transitionDelay: `${(i - 1) * 220 + 260}ms`,
                   }}
                 />
               )}
               <div
-                className="flex w-[71.02px] flex-col items-center justify-center rounded-[74.885px] border border-solid border-[#fd5f00]"
-                style={{ padding: "7.73px 12.078px" }}
+                className={`step-badge flex w-[71.02px] flex-col items-center justify-center rounded-[74.885px] border border-solid border-[#fd5f00] ${
+                  stepsInView ? "step-badge-visible" : ""
+                }`}
+                style={{ padding: "7.73px 12.078px", transitionDelay: `${i * 220}ms` }}
               >
                 <span
                   className="font-display w-full text-center font-bold text-white"
@@ -111,8 +127,10 @@ export default function HowItWorks() {
               </div>
 
               <div
-                className="flex w-full flex-col gap-[4px] text-center"
-                style={{ letterSpacing: TRACKING }}
+                className={`step-copy flex w-full flex-col gap-[4px] text-center ${
+                  stepsInView ? "step-copy-visible" : ""
+                }`}
+                style={{ letterSpacing: TRACKING, transitionDelay: `${i * 220 + 120}ms` }}
               >
                 <h3
                   className="font-display font-bold text-white"

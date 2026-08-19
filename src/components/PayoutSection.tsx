@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import Reveal from "./Reveal";
 
 const mulish: CSSProperties = { fontFamily: "var(--font-mulish)" };
 
@@ -31,6 +32,7 @@ function WalletCard() {
             src="/images/wallet-balance-bg.jpg"
             alt=""
             fill
+            sizes="(min-width: 1024px) 562px, 100vw"
             aria-hidden
             className="pointer-events-none absolute inset-0 rounded-t-[16px] object-cover"
           />
@@ -139,7 +141,7 @@ function ApplyButtons({ className = "" }: { className?: string }) {
     >
       <a
         href="#download"
-        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] px-[8px] py-[16px] transition-transform hover:scale-[1.03]"
+        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] px-[8px] py-[16px] transition-[transform,box-shadow] duration-300 hover:scale-[1.03] hover:shadow-[0_12px_32px_-8px_rgba(246,11,50,0.55)]"
         style={{
           backgroundImage:
             "linear-gradient(93.7deg, rgb(243,163,4) 33.183%, rgb(246,11,50) 131.7%)",
@@ -154,7 +156,7 @@ function ApplyButtons({ className = "" }: { className?: string }) {
       </a>
       <a
         href="#how-it-works"
-        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] px-[8px] py-[16px] transition-transform hover:scale-[1.03]"
+        className="flex h-[56px] w-[188px] items-center justify-center overflow-hidden rounded-[40px] border border-solid border-transparent px-[8px] py-[16px] transition-[transform,border-color] duration-300 hover:scale-[1.03] hover:border-white/40"
       >
         <span
           className="text-[16px] font-bold whitespace-nowrap text-white lg:text-[18px]"
@@ -172,7 +174,7 @@ export default function PayoutSection() {
     <section id="for-creatives" className="relative pt-[82px] lg:py-24">
       <div className="mx-auto flex max-w-[346px] flex-col items-center gap-[37px] lg:max-w-[1180px] lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-6">
         {/* Copy */}
-        <div className="flex w-full flex-col items-center gap-[42px] lg:items-start lg:gap-[49px]">
+        <Reveal className="flex w-full flex-col items-center gap-[42px] lg:items-start lg:gap-[49px]">
           <div className="flex w-full max-w-[294px] flex-col items-center gap-[16px] lg:max-w-none lg:items-start lg:gap-[32px]">
             <div className="flex flex-col items-center lg:items-start">
               <span className="rounded-[20.252px] bg-[rgba(255,153,58,0.07)] px-[6.751px] py-[5.625px] lg:rounded-[36px] lg:px-[12px] lg:py-[10px]">
@@ -223,12 +225,12 @@ export default function PayoutSection() {
 
           {/* Mobile drops these below the wallet (6671:17166) */}
           <ApplyButtons className="hidden lg:flex" />
-        </div>
+        </Reveal>
 
         {/* Wallet mockup */}
-        <div className="w-full lg:w-[562px] lg:shrink-0">
+        <Reveal delay={120} className="w-full lg:w-[562px] lg:shrink-0">
           <WalletCard />
-        </div>
+        </Reveal>
 
         <ApplyButtons className="mt-[5px] flex lg:hidden" />
       </div>

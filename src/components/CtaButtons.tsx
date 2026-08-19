@@ -18,7 +18,7 @@ export default function CtaButtons() {
       {/* Mobile keeps only the gradient pill (6671:17056) */}
       <a
         href="#download"
-        className="hidden h-[56px] w-[188px] items-center justify-center gap-[10px] overflow-hidden rounded-[40px] px-[8px] py-[16px] transition-transform hover:scale-[1.03] lg:flex"
+        className="hidden h-[56px] w-[188px] items-center justify-center gap-[10px] overflow-hidden rounded-[40px] border border-solid border-transparent px-[8px] py-[16px] transition-[transform,border-color] duration-300 hover:scale-[1.03] hover:border-white/40 lg:flex"
       >
         <span className="text-white" style={{ ...label, fontSize: "18px" }}>
           Capture Now
